@@ -1,8 +1,9 @@
 import React from 'react'
+import './index.css'
 
 function PageError() {
   return (
-    <div>Error</div>
+    <div className='contenedor'>Error</div>
   )
 }
 

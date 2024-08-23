@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import './App.css'
-import PageError from "./Pages/PageError";
-import Home from "./Pages/Home";
+import PageError from "./Pages/PageError/PageError";
+import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login";
 import SingUp from "./Pages/SingUp";
 
