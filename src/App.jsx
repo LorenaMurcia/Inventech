@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import './App.css'
 import PageError from "./Pages/PageError";
 import Home from "./Pages/Home";
@@ -12,9 +12,9 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route pat="/login" element={<Login/>}/>
-        <Route pat="/singup" element={<SingUp/>}/>
-        <Route pat="/pageError" element={<PageError/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/singup" element={<SingUp/>}/>
+        <Route path="/pageError" element={<PageError/>} />
       </Routes>
     </div>
   )
