@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Error() {
+function PageError() {
   return (
     <div>Error</div>
   )
 }
 
-export default Error
+export default PageError
