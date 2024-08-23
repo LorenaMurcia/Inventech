@@ -1,3 +1,64 @@
-.contenedor{
-  background-image: url('/src/assets/starts.svg');
+.contenedorNotFound {
+  display: flex;
+  height: 100dvh;
+  width: 100dvw;
+  background-color: #0c091e;
+  background-image: url("../../assets/404Page.png");
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  color: #d7d5e4;
+}
+
+.contenedorNotFound__title {
+  color: var(--colorPrimary);
+  font-family: "Concert One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 8em;
+  margin: 0;
+}
+
+.contenedorNotFound__content {
+  font-size: 6em;
+  font-family: "Concert One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
+  margin: 0;
+}
+
+.contenedorNotFound__back {
+  font-family: "Concert One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-top: 1em;
+  transition: background-color 0.3s;
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+  font-size: 2em;
+}
+
+.contenedorNotFound__back:hover {
+  background-color: #ffffff46;
+}
+
+.contenedorNotFound__back--icon {
+  mask: url("../../src/assets/arrow.svg");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: #fff;
+  display: inline-block;
+  height: 1.5em;
+  width: 1.5em;
+  margin-right: 0.5em;
 }

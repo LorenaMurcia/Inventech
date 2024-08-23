@@ -14,7 +14,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login/>}/>
         <Route path="/singup" element={<SingUp/>}/>
-        <Route path="/pageError" element={<PageError/>} />
+        {/* <Route path="/pageError" element={<PageError/>} /> */}
+        <Route path="*" element={<PageError/>} />
       </Routes>
     </div>
   )
