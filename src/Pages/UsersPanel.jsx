@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Home() {
+function UsersPanel() {
   return (
     <div>Home
       <button
@@ -11,4 +11,4 @@ function Home() {
   )
 }
 
-export default Home
+export default UsersPanel;
