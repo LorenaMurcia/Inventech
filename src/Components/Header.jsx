@@ -25,7 +25,7 @@ function Header() {
           </div>
           <ul
             tabIndex={0}
-            className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow">
+            className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-Blue50 p-2 shadow">
             <li>
               <a className="justify-between">
                 Profile
