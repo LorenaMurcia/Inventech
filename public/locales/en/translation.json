@@ -1,4 +1,11 @@
 {
+  "header": {
+    "users": "Users",
+    "devices": "Devices",
+    "maintenance": "Maintenance",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
   "login": {
     "btnlogin": "Login",
     "email": "Email",

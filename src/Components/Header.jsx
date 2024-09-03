@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { useTranslation } from 'react-i18next';
 
 function Header() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const { t } = useTranslation();
 
   return (
-    <div className="navbar bg-Blue50 shadow">
+    <div className="navbar fixed left-0 top-0 z-50 w-full bg-Blue50 shadow">
       <div className="flex-1">
         <NavLink className="btn btn-ghost text-xl" to={"/"}>Inventech</NavLink>
       </div>
@@ -15,9 +14,9 @@ function Header() {
       {/* Menu Items Desktop*/}
       <div className="hidden flex-none md:flex md:flex-row">
         <ul className="menu menu-horizontal flex-row space-x-4 p-0">
-          <li><NavLink className="btn btn-ghost" to="/usersPanel">Users</NavLink></li>
-          <li><NavLink className="btn btn-ghost" to="/deviceManagment">Devices</NavLink></li>
-          <li><NavLink className="btn btn-ghost" to="/maintenance">Maintenance</NavLink></li>
+          <li><NavLink className="btn btn-ghost" to="/usersPanel">{t('header.users') }</NavLink></li>
+          <li><NavLink className="btn btn-ghost" to="/deviceManagment">{t('header.devices')}</NavLink></li>
+          <li><NavLink className="btn btn-ghost" to="/maintenance">{t('header.maintenance')}</NavLink></li>
         </ul>
       </div>
       {/* Menu Items Mobile */}
@@ -34,9 +33,9 @@ function Header() {
           </svg>
         </div>
         <ul tabIndex={0} className="menu dropdown-content z-[1] w-52 rounded-box bg-Blue50 p-2 shadow">
-          <li><NavLink className="btn btn-ghost" to="/usersPanel">Users</NavLink></li>
-          <li><NavLink className="btn btn-ghost" to="/deviceManagment">Devices</NavLink></li>
-          <li><NavLink className="btn btn-ghost" to="/maintenance">Maintenance</NavLink></li>
+          <li><NavLink className="btn btn-ghost" to="/usersPanel">{t('header.maintenance')}</NavLink></li>
+          <li><NavLink className="btn btn-ghost" to="/deviceManagment">{t('header.maintenance')}</NavLink></li>
+          <li><NavLink className="btn btn-ghost" to="/maintenance">{t('header.maintenance')}</NavLink></li>
         </ul>
       </div>
 
@@ -55,9 +54,9 @@ function Header() {
             tabIndex={0}
             className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-Blue50 p-2 shadow">
             <li>
-              <a className="justify-between">Profile</a>
+              <a className="justify-between">{t('header.profile')}</a>
             </li>
-            <li><a>Logout</a></li>
+            <li><a>{t('header.logout')}</a></li>
           </ul>
         </div>
       </div>

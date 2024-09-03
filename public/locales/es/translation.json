@@ -1,4 +1,11 @@
 {
+  "header": {
+    "users": "Usarios",
+    "devices": "Equipos",
+    "maintenance": "Mantenimiento",
+    "profile": "Perfil",
+    "logout": "Cerrar Sesión"
+  },
   "login": {
     "btnlogin": "Iniciar sesión",
     "email": "Correo",
