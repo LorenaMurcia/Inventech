@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Login from "./Pages/Login";
 import Singup from "./Pages/Singup";
+import Footer from './Components/Footer';
+import Header from './Components/Header';
 import UsersPanel from "./Pages/UsersPanel";
 import Maintenance from "./Pages/Maintenance";
 import PageError from "./Pages/PageError/PageError";
@@ -14,6 +16,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Header/>
       <Routes>
         {/* Sergio */}
         <Route path="/" element={<Login/>}/>
@@ -27,6 +30,7 @@ function App() {
         {/* Johan */}
         <Route path="/maintenance" element={<Maintenance/>}/>
       </Routes>
+      <Footer/>
     </BrowserRouter>
   )
 }

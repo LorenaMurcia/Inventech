@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 function Header() {
   return (
@@ -8,9 +9,9 @@ function Header() {
       </div>
       <div className="flex">
         <ul className="menu menu-horizontal p-0">
-          <li><a className="btn btn-ghost">Users</a></li>
-          <li><a className="btn btn-ghost">Devices</a></li>
-          <li><a className="btn btn-ghost">Maintance</a></li>
+          <li><NavLink className="btn btn-ghost" to={"/usersPanel"}>Users</NavLink></li>
+          <li><NavLink className="btn btn-ghost" to={"/deviceManagment"}>Devices</NavLink></li>
+          <li><NavLink className="btn btn-ghost" to={"/maintenance"}>Maintance</NavLink></li>
         </ul>
       </div>
       <div className="flex-none">
