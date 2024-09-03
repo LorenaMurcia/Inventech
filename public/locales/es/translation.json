@@ -1,0 +1,8 @@
+{
+  "login": {
+    "btnlogin": "Iniciar sesión",
+    "email": "Correo",
+    "password": "Contraseña",
+    "username": "Nombre de usuario"
+  }
+}

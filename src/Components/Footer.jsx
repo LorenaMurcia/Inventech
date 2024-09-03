@@ -1,9 +1,11 @@
 import React from 'react'
+import LanguageSwitcher from './LanguageSwitcher'
 
 function Footer() {
   return (
     <footer className="footer footer-center rounded bg-Blue950 p-10 text-base-content text-white">
       <nav className="grid grid-flow-col gap-4">
+      <LanguageSwitcher/>
         <a className="link-hover link">Lorena Murcia</a>
         <a className="link-hover link">Johan Galeano</a>
         <a className="link-hover link">Sergio Lopez</a>
