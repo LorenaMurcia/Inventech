@@ -145,7 +145,7 @@ function UsersTable() {
               <th>
                 {editingUserId === user.id ? (
                   <button
-                    className="btn btn-xs bg-lime-700 text-white"
+                    className="btn btn-xs bg-lime-700 text-white hover:bg-lime-600"
                     onClick={() => handleSaveClick(user.id)}
                   >
                     {t('users.save')}
