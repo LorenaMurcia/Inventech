@@ -11,5 +11,17 @@
     "email": "Email",
     "password": "Password",
     "username": "Username"
+  },
+  "users": {
+    "title": "Users Panel",
+    "adduser": "Add User",
+    "edituser": "Edit",
+    "save": "Save",
+    "name": "Name",
+    "id": "ID",
+    "date": "Date",
+    "status": "Status",
+    "role": "Role",
+    "detail": "Detail"
   }
 }
