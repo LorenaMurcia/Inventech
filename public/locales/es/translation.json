@@ -22,7 +22,9 @@
     "date": "Fecha",
     "status": "Estatus",
     "role": "Role",
-    "detail": "Detalle"
+    "detail": "Detalle",
+    "active": "Activo",
+    "inactive": "Inactivo"
   },
   "singup": {
     "btnlogin": "Registrar",

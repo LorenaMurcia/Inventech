@@ -120,9 +120,9 @@ function UsersTable() {
               <td>
               {editingUserId === user.id ? (
                 <select className="select select-bordered select-xs w-full max-w-xs">
-                  <option disabled selected>Status</option>
-                  <option>Active</option>
-                  <option>Inactive</option>
+                  <option disabled selected>{t('users.status')}</option>
+                  <option>{t('users.active')}</option>
+                  <option>{t('users.inactive')}</option>
                 </select>
                 ) : (
                   <span className="badge badge-ghost badge-sm">{user.status}</span>
