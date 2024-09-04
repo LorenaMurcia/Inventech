@@ -11,5 +11,26 @@
     "email": "Correo",
     "password": "Contraseña",
     "username": "Nombre de usuario"
+  },
+  "users": {
+    "title": "Panel de usuarios",
+    "adduser": "Agregar Usuario",
+    "edituser": "Editar",
+    "save": "Guardar",
+    "name": "Nombre",
+    "id": "ID",
+    "date": "Fecha",
+    "status": "Estatus",
+    "role": "Role",
+    "detail": "Detalle",
+    "active": "Activo",
+    "inactive": "Inactivo"
+  },
+  "singup": {
+    "btnlogin": "Registrar",
+    "email": "Correo",
+    "password": "Contraseña",
+    "username": "Nombre de usuario",
+    "role": "Role"
   }
 }
