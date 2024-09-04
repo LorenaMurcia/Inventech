@@ -23,5 +23,12 @@
     "status": "Status",
     "role": "Role",
     "detail": "Detail"
+  },
+  "singup": {
+    "btnlogin": "Register",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "role": "Role"
   }
 }
