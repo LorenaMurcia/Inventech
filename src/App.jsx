@@ -18,22 +18,26 @@ function App() {
   return (
     <BrowserRouter>
       <Header/>
-      <Routes>
-        {/* Sergio */}
-        <Route path="/" element={<Login/>}/>
-        <Route path="/singup" element={<Singup/>}/>
-        {/* Johan */}
-        <Route path="*" element={<PageError/>} />
-        {/* Wendy */}
-        <Route path="/usersPanel" element={<UsersPanel />} /> 
-        {/* Lorena */}
-        <Route path="/deviceManagment" element={<DeviceManagement/>}/>
-        {/* Johan */}
-        <Route path="/maintenance" element={<Maintenance/>}/>
-        <Route path="/observations/:id" element={<ObservationsCard/>}/>
-        <Route path="/observations/:id/:id" element={<ObservationsCard/>}/>
-      </Routes>
-      <Footer/>
+      <div className="flex flex-col min-h-screen pt-16">
+        <div className="flex-grow flex flex-col">
+          <Routes>
+            {/* Sergio */}
+            <Route path="/" element={<Login/>}/>
+            <Route path="/singup" element={<Singup/>}/>
+            {/* Johan */}
+            <Route path="*" element={<PageError/>} />
+            {/* Wendy */}
+            <Route path="/usersPanel" element={<UsersPanel />} /> 
+            {/* Lorena */}
+            <Route path="/deviceManagment" element={<DeviceManagement/>}/>
+            {/* Johan */}
+            <Route path="/maintenance" element={<Maintenance/>}/>
+            <Route path="/observations/:id" element={<ObservationsCard/>}/>
+            <Route path="/observations/:id/:id" element={<ObservationsCard/>}/>
+          </Routes>
+        </div>
+        <Footer/>
+      </div>
     </BrowserRouter>
   )
 }
