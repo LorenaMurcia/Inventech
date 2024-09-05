@@ -5,7 +5,7 @@ function Login() {
   const { t } = useTranslation();
   
   return (
-    <div className='flex min-h-screen items-center justify-center p-4'>
+    <div className='flex flex-grow items-center justify-center p-4'>
       <div className='h-[400px] w-full max-w-md rounded-lg bg-Blue100 p-6 shadow-lg'>
         <h2 className='mb-6 text-center text-2xl font-bold text-gray-800'>{t('login.btnlogin')}</h2>
         <form className='space-y-4'>
