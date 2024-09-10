@@ -10,6 +10,7 @@ import Maintenance from "./Pages/Maintenance";
 import PageError from "./Pages/PageError/PageError";
 import DeviceManagement from "./Pages/DeviceManagement";
 import ObservationsCard from './Pages/ObservationsCard';
+import Device from './Pages/Device';
 
 
 
@@ -30,6 +31,7 @@ function App() {
             <Route path="/usersPanel" element={<UsersPanel />} /> 
             {/* Lorena */}
             <Route path="/deviceManagment" element={<DeviceManagement/>}/>
+            <Route path="/device" element={<Device/>}/>
             {/* Johan */}
             <Route path="/maintenance" element={<Maintenance/>}/>
             <Route path="/observations/:id" element={<ObservationsCard/>}/>
