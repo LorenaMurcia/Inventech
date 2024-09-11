@@ -10,7 +10,16 @@ function Device() {
             <div className='h-[600px] w-full max-w-md rounded-lg bg-Blue100 p-6 shadow-lg'>
                 <h2 className='mb-6 text-center text-2xl font-bold text-gray-800'>{t('form.tittleform')}</h2>
                 <form className='space-y-4'>
-                 
+
+                    <label className='input input-bordered flex items-center gap-2'>
+                        <input
+                            type="text"
+                            className='flex-1 border-none outline-none'
+                            placeholder={t('form.user')}
+                            required="true"
+                        />
+                    </label>
+
                     <label className='input input-bordered flex items-center gap-2'>
                         <input
                             type="text"
@@ -19,7 +28,7 @@ function Device() {
                             required="true"
                         />
                     </label>
-                  
+
                     <label className='input input-bordered flex items-center gap-2'>
                         <input
                             type="text"
@@ -34,12 +43,12 @@ function Device() {
                             className='flex-1 border-none outline-none bg-white'
                             placeholder={t('form.equipmentType')}
                         >
-                            <option value="">{t('form.selectType')}</option> 
+                            <option value="">{t('form.selectType')}</option>
                             <option value="desktop">{t('form.desktop')}</option>
                             <option value="laptop">{t('form.laptop')}</option>
                         </select>
                     </label>
-                 
+
                     <label className='input input-bordered flex items-center gap-2'>
                         <input
                             type="text"
@@ -57,7 +66,7 @@ function Device() {
                             required="true"
                         />
                     </label>
-                    
+
                     <label className='input input-bordered flex items-center gap-2'>
                         <input
                             type="text"

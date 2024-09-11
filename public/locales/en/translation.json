@@ -34,7 +34,8 @@
     "role": "Role"
   },  
   "form": {
-    "tittleform": "Add Device",    
+    "tittleform": "Add Device",   
+    "user":"Responsible User",
     "brand": "Brand",
     "serial": "Serial",   
     "ramCapacity": "RAM Capacity",
@@ -50,7 +51,7 @@
     "addDevice": "Add Device",
     "search":"Search",
     "id":"ID",
-    "date":"Date",
+    "date":"Registration Date",
     "brand":"Brand",
     "serial":"Serial",
     "type":"Equipment type",
@@ -59,6 +60,7 @@
     "ram":"RAM Memory",
     "disk":"Disk",
     "processor": "Processor",
+    "user": "Responsible User",
     "actions":"Actions",
     "btnedit":"Edit",
     "btnsave":"Save"
