@@ -25,22 +25,21 @@ const createusers = async (data)=>{
   return response.json();
 };
 
-const updateUsers = async (id, data)=>{
+const updateUser = async (id, data)=>{
   const payload = {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-  }
+  };
   const response = await fetch(`${api}/api/users/${id}`, payload);
   if (!response.ok) {
     throw new Error('Error en la conexion');
   }
   return response.json();
+};
 
-}
 
-
-export  {getAllUsers, createusers, updateUsers}
+export  {getAllUsers, createusers, updateUser}
 

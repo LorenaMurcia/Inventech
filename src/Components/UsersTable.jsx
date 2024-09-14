@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getAllUsers } from '../Servicios/usuarios';
+import { getAllUsers, updateUser, } from '../Servicios/usuarios';
+import { getRoles } from '../Servicios/rol';
+import Swal from 'sweetalert2';
 
 
 function UsersTable() {
@@ -9,15 +11,23 @@ function UsersTable() {
   const [isLoading, setIsLoading] = useState(true);
   const [nombres, setNombres] = useState('');
   const [correo, setCorreo] = useState('');
+  const [contraseña, setContraseña] = useState('');
   const [roles, setRoles] = useState('');
   const [selectedRole, setSelectedRole] = useState('');
+  console.log(selectedRole)
+  const [isUserUpdated, setIsUserUpdated] = useState(false); 
 
   const { t } = useTranslation();
-  
+
   const handleRoles = async ()=>{
     const dataRoles = await getRoles();
     setRoles(dataRoles);
   }
+
+  const handleRoleChange = (event) => {
+    setSelectedRole(event.target.value); // Almacena el id del rol seleccionado
+  };
+
 
   const dataUsers = async () => {
     try {
@@ -30,27 +40,52 @@ function UsersTable() {
     }
   };
 
-  useEffect(()=>{
-    dataUsers();
-    handleRoles();
-  },[])
-
   const handleEditClick = (id) => {
+    console.log('id', id)
     setEditingUserId(id);
   };
 
-  const handleSaveClick = (id) => {
+
+  const handleSaveClick = async (id) => {
+    console.log('id', id)
+    try {
+      const update = await updateUser(id, {
+        nombres: nombres,
+        correo: correo,
+        contraseña: contraseña,
+        roles: selectedRole
+      });
+      if(update){
+        setIsUserUpdated(true);
+        setEditingUserId(null);
+        Swal.fire({
+          title: 'Usuario editado',
+          text: 'El usuario ha sido editado exitosamente',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        });
+      }
+      console.log('user', update)
+    } catch (error) {
+      console.error('Error updating user:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Hubo un problema al editar el usuario',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
+    }
     setEditingUserId(null);
   };
 
-  const handleInputChange = (e, id) => {
-    const { name, value } = e.target;
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === id ? { ...user, [name]: value } : user
-      )
-    );
-  };
+  useEffect(()=>{
+    dataUsers();
+    handleRoles();
+    if (isUserUpdated) {
+      dataUsers(); // Vuelve a cargar los usuarios
+      setIsUserUpdated(false); // Resetea el estado para no volver a hacer la llamada innecesariamente
+    }
+  },[isUserUpdated])
 
 
   return (
@@ -87,9 +122,10 @@ function UsersTable() {
                     <input
                       type="text"
                       name="name"
-                      value={user.nombres}
-                      onChange={(e) => handleInputChange(e, user.id_usuario)}
+                      value={nombres}
+                      onChange={(e)=> setNombres(e.target.value)}
                       className="input input-sm input-bordered w-full max-w-xs"
+                      placeholder={user.nombres}
                     />
                   ) : (
                     <div className="flex items-center gap-3">
@@ -113,9 +149,10 @@ function UsersTable() {
                     <input
                       type="text"
                       name="role"
-                      value={user.correo}
-                      onChange={(e) => handleInputChange(e, user.id_usuario)}
+                      value={correo}
+                      onChange={(e)=> setCorreo(e.target.value)}
                       className="input input-sm input-bordered w-full max-w-xs"
+                      placeholder={user.correo}
                     />
                   ) : (
                     <span className="badge badge-ghost badge-sm">{user.correo}</span>
@@ -123,17 +160,31 @@ function UsersTable() {
                 </td>
                 <td>
                   {editingUserId === user.id_usuario ? (
-                    <select className="select select-bordered select-xs w-full max-w-xs">
-                      <option disabled selected>{user.rol.nombre}</option>
-                      <option>administrados</option>
-                      <option>tecnico</option>
-                      <option>Cliente</option>
-                    </select>
+                    <select className="select select-bordered select-xs h-[40px] w-full max-w-lg" value={selectedRole} onChange={handleRoleChange}>
+                    {roles?.length > 0 && roles.map((role) => (
+                      <option key={role.id_rol} value={role.id_rol}>
+                        {role.nombre}
+                      </option>
+                    ))}
+                    </select> 
+                    ) : (
+                      <span className="badge badge-ghost badge-sm">{user.rol.nombre}</span>
+                    )}
+                </td>
+                <td>
+                {editingUserId === user.id_usuario ? (
+                    <input
+                      type="text"
+                      name="role"
+                      value={contraseña}
+                      onChange={(e)=> setContraseña(e.target.value)}
+                      className="input input-sm input-bordered w-full max-w-xs"
+                      placeholder={user.contraseña}
+                    />
                   ) : (
-                    <span className="badge badge-ghost badge-sm">{user.rol.nombre}</span>
+                    <span className="badge badge-ghost badge-sm">{user.contraseña}</span>
                   )}
                 </td>
-                <td>{user.detail}</td>
                 <th>
                   {editingUserId === user.id_usuario ? (
                     <button
