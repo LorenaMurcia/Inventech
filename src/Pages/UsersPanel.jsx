@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import UsersTable from '../Components/UsersTable';
 import { NavLink } from 'react-router-dom';
 
+
 function UsersPanel() {
   const { t } = useTranslation();
+  
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-[90%] rounded-lg bg-white p-10 shadow-lg">

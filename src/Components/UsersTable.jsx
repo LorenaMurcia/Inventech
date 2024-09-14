@@ -1,53 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getAllUsers } from '../Servicios/usuarios';
 
 
 function UsersTable() {
   const [editingUserId, setEditingUserId] = useState(null);
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      date: new Date().toLocaleDateString(),
-      status: "active",
-      name: "Hart Hagerty",
-      image: "https://img.daisyui.com/images/profile/demo/2@94.webp",
-      role: "tecnico",
-      detail: "...",
-      country: "United States"
-    },
-    {
-      id: 2,
-      date: new Date().toLocaleDateString(),
-      status: "inactive",
-      name: "Luna Mccall",
-      image: "https://img.daisyui.com/images/profile/demo/3@94.webp",
-      role: "gerente",
-      detail: "...",
-      country: "China"
-    },
-    {
-      id: 3,
-      date: new Date().toLocaleDateString(),
-      status: "active",
-      name: "Luna Mccall",
-      image: "https://img.daisyui.com/images/profile/demo/4@94.webp",
-      role: "gerente",
-      detail: "...",
-      country: "Russia"
-    },
-    {
-      id: 4,
-      date: new Date().toLocaleDateString(),
-      status: "inactive",
-      name: "Luna Mccall",
-      image: "https://img.daisyui.com/images/profile/demo/5@94.webp",
-      role: "gerente",
-      detail: "...",
-      country: "Brazil"
-    }
-  ]);
+  const [users, setUsers] = useState();
 
   const { t } = useTranslation();
+
+
+  const dataUsers = async()=>{
+    const data = await getAllUsers();
+    setUsers(data);
+  };
+
+  useEffect(()=>{
+    dataUsers();
+  },[])
 
   const handleEditClick = (id) => {
     setEditingUserId(id);
@@ -75,14 +45,14 @@ function UsersTable() {
             <th>{t('users.name')}</th>
             <th>{t('users.id')}</th>
             <th>{t('users.date')}</th>
-            <th>{t('users.status')}</th>
+            <th>{t('users.correo')}</th>
             <th>{t('users.role')}</th>
             <th>{t('users.detail')}</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {users?.map((user) => (
             <tr key={user.id}>
               <th>
                 <label>
@@ -90,12 +60,12 @@ function UsersTable() {
                 </label>
               </th>
               <td>
-                {editingUserId === user.id ? (
+                {editingUserId === user.id_usuario ? (
                   <input
                     type="text"
                     name="name"
-                    value={user.name}
-                    onChange={(e) => handleInputChange(e, user.id)}
+                    value={user.nombres}
+                    onChange={(e) => handleInputChange(e, user.id_usuario )}
                     className="input input-sm input-bordered w-full max-w-xs"
                   />
                 ) : (
@@ -104,56 +74,56 @@ function UsersTable() {
                       <div className="mask mask-squircle h-12 w-12">
                         <img
                           src={user.image}
-                          alt={`${user.name} Avatar`}
+                          alt={`${user.nombres} Avatar`}
                         />
                       </div>
                     </div>
                     <div>
-                      <div className="font-bold">{user.name}</div>
-                      <div className="text-sm opacity-50">{user.country}</div>
+                      <div className="font-bold">{user.nombres}</div>
                     </div>
                   </div>
                 )}
               </td>
-              <td>{user.id}</td>
-              <td>{user.date}</td>
+              <td>{user.id_usuario}</td>
+              <td>{user.fecha_creacion}</td>
               <td>
-              {editingUserId === user.id ? (
-                <select className="select select-bordered select-xs w-full max-w-xs">
-                  <option disabled selected>{t('users.status')}</option>
-                  <option>{t('users.active')}</option>
-                  <option>{t('users.inactive')}</option>
-                </select>
+              {editingUserId === user.id_usuario ? (
+                <input
+                type="text"
+                name="role"
+                value={user.correo}
+                onChange={(e) => handleInputChange(e, user.id_usuario)}
+                className="input input-sm input-bordered w-full max-w-xs"
+              />
                 ) : (
-                  <span className="badge badge-ghost badge-sm">{user.status}</span>
+                  <span className="badge badge-ghost badge-sm">{user.correo}</span>
                 )}
               </td>
               <td>
-                {editingUserId === user.id ? (
-                  <input
-                    type="text"
-                    name="role"
-                    value={user.role}
-                    onChange={(e) => handleInputChange(e, user.id)}
-                    className="input input-sm input-bordered w-full max-w-xs"
-                  />
+                {editingUserId === user.id_usuario ? (
+                  <select className="select select-bordered select-xs w-full max-w-xs">
+                  <option disabled selected>{user.rol.nombre}</option>
+                  <option>administrados</option>
+                  <option>tecnico</option>
+                  <option>Cliente</option>
+                </select>
                 ) : (
-                  <span className="badge badge-ghost badge-sm">{user.role}</span>
+                  <span className="badge badge-ghost badge-sm">{user.rol.nombre}</span>
                 )}
               </td>
               <td>{user.detail}</td>
               <th>
-                {editingUserId === user.id ? (
+                {editingUserId === user.id_usuario ? (
                   <button
                     className="btn btn-xs bg-lime-700 text-white hover:bg-lime-600"
-                    onClick={() => handleSaveClick(user.id)}
+                    onClick={() => handleSaveClick(user.id_usuario)}
                   >
                     {t('users.save')}
                   </button>
                 ) : (
                   <button
                     className="btn btn-outline btn-xs bg-Blue400 text-white hover:bg-Blue600"
-                    onClick={() => handleEditClick(user.id)}
+                    onClick={() => handleEditClick(user.id_usuario)}
                   >
                    {t('users.edituser')}
                   </button>
