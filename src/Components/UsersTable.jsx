@@ -7,9 +7,17 @@ function UsersTable() {
   const [editingUserId, setEditingUserId] = useState(null);
   const [users, setUsers] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [nombres, setNombres] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [roles, setRoles] = useState('');
+  const [selectedRole, setSelectedRole] = useState('');
 
   const { t } = useTranslation();
-
+  
+  const handleRoles = async ()=>{
+    const dataRoles = await getRoles();
+    setRoles(dataRoles);
+  }
 
   const dataUsers = async () => {
     try {
@@ -24,6 +32,7 @@ function UsersTable() {
 
   useEffect(()=>{
     dataUsers();
+    handleRoles();
   },[])
 
   const handleEditClick = (id) => {
@@ -86,7 +95,9 @@ function UsersTable() {
                     <div className="flex items-center gap-3">
                       <div className="avatar">
                         <div className="mask mask-squircle h-12 w-12">
-                          <img src={user.image} alt={`${user.nombres} Avatar`} />
+                        <img
+                        src="https://cdn-icons-png.flaticon.com/512/3541/3541871.png"
+                        alt="Avatar Tailwind CSS Component" />
                         </div>
                       </div>
                       <div>

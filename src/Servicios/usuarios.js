@@ -8,7 +8,7 @@ const response = await fetch(`${api}/api/users`)
     throw new Error('Error en la conexion');
   }
   return response.json();
-}
+};
 
 const createusers = async (data)=>{
   const payload = {
@@ -23,8 +23,24 @@ const createusers = async (data)=>{
     throw new Error('Error en la conexion');
   }
   return response.json();
+};
+
+const updateUsers = async (id, data)=>{
+  const payload = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  }
+  const response = await fetch(`${api}/api/users/${id}`, payload);
+  if (!response.ok) {
+    throw new Error('Error en la conexion');
+  }
+  return response.json();
+
 }
 
 
-export  {getAllUsers, createusers}
+export  {getAllUsers, createusers, updateUsers}
 
