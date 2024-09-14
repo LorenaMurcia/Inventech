@@ -24,7 +24,7 @@ function UsersTable() {
       const data = await getAllUsers();
       setUsers(data);
     } catch (error) {
-      console.log("Error fetching users:", error);
+      console.error("Error fetching users:", error);
     } finally {
       setIsLoading(false); // La carga ha finalizado
     }
@@ -65,7 +65,6 @@ function UsersTable() {
           confirmButtonText: 'Ok',
         });
       }
-      console.log('user', update)
     } catch (error) {
       console.error('Error updating user:', error);
       Swal.fire({
