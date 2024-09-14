@@ -32,5 +32,40 @@
     "password": "Password",
     "username": "Username",
     "role": "Role"
-  }
+  },  
+  "form": {
+    "tittleform": "Add Device",   
+    "user":"Responsible User",
+    "brand": "Brand",
+    "serial": "Serial",   
+    "ramCapacity": "RAM Capacity",
+    "diskCapacity": "Disk Capacity",
+    "processor": "Processor",
+    "selectType": "Select type",
+    "desktop": "Desktop",
+    "laptop": "Laptop",
+    "submit": "Submit"
+  },
+  "device":{
+    "tittle": "Equipment Inventory",
+    "addDevice": "Add Device",
+    "search":"Search",
+    "id":"ID",
+    "date":"Registration Date",
+    "brand":"Brand",
+    "serial":"Serial",
+    "type":"Equipment type",
+    "laptop":"Laptop",
+    "desktop":"Desktop",
+    "ram":"RAM Memory",
+    "disk":"Disk",
+    "processor": "Processor",
+    "user": "Responsible User",
+    "actions":"Actions",
+    "btnedit":"Edit",
+    "btnsave":"Save"
+  },
+  "back":{
+    "text": "Go back"
+  }  
 }

@@ -32,5 +32,40 @@
     "password": "Contraseña",
     "username": "Nombre de usuario",
     "role": "Role"
+  },
+  "form": {
+    "tittleform": "Agregar Equipo",
+    "user":"Usuario Responsable",
+    "brand": "Marca",
+    "serial": "Serial",   
+    "ramCapacity": "Capacidad de RAM",
+    "diskCapacity": "Capacidad de Disco",
+    "processor": "Procesador",
+    "selectType": "Selecciona el tipo de equipo",
+    "desktop": "Escritorio",
+    "laptop": "Portátil",
+    "submit": "Enviar"
+  },
+  "device": {
+    "tittle": "Inventario de Equipos",
+    "addDevice": "Agregar Dispositivo",
+    "search":"Búsqueda",
+    "id":"ID",
+    "date":"Fecha de Registro",
+    "brand":"Marca",
+    "serial":"Serial",
+    "type":"Tipo de Equipo",
+    "laptop":"Portátil",
+    "desktop":"Escritorio",
+    "ram":"Memoria Ram",
+    "disk":"Disco",
+    "processor": "Procesador",
+    "user": "Usuario Responsable",
+    "actions":"Acciones",
+    "btnedit":"Editar",
+    "btnsave":"Guardar"
+  },
+  "back":{
+    "text": "Volver"
   }
 }
