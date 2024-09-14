@@ -8,6 +8,15 @@ const response = await fetch(`${api}/api/users`)
   return response.json();
 };
 
+const getOneUser = async (id)=>{
+  const response = await fetch(`${api}/api/users/${id}`)
+  if (!response.ok) {
+    throw new Error('Error en la conexion');
+  }
+  return response.json();
+
+}
+
 const createusers = async (data)=>{
   const payload = {
     method: "POST",
@@ -54,5 +63,5 @@ const deteleUser = async (id)=> {
 }
 
 
-export  {getAllUsers, createusers, updateUser, deteleUser}
+export  {getAllUsers, createusers, updateUser, deteleUser, getOneUser}
 
