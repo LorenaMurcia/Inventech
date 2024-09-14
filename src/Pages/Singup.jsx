@@ -36,7 +36,7 @@ function Singup() {
       });
       
     } catch (error) {
-      console.log(error);
+      console.error(error);
       Swal.fire({
         title: 'Error',
         text: 'Hubo un problema al crear el usuario',

@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getAllUsers } from '../Servicios/usuarios';
+import { deteleUser, getAllUsers, updateUser, } from '../Servicios/usuarios';
+import { getRoles } from '../Servicios/rol';
+import Swal from 'sweetalert2';
 
 
 function UsersTable() {
-  const [editingUserId, setEditingUserId] = useState(null);
   const [users, setUsers] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-  const [nombres, setNombres] = useState('');
-  const [correo, setCorreo] = useState('');
   const [roles, setRoles] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [nombres, setNombres] = useState('');
+  const [contraseña, setContraseña] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedRole, setSelectedRole] = useState('');
+  const [editingUserId, setEditingUserId] = useState(null);
+  const [isUserUpdated, setIsUserUpdated] = useState(false); 
 
   const { t } = useTranslation();
-  
-  const handleRoles = async ()=>{
-    const dataRoles = await getRoles();
-    setRoles(dataRoles);
-  }
 
+  //funcion para traer la data de usuarios
   const dataUsers = async () => {
     try {
       const data = await getAllUsers();
@@ -30,27 +30,86 @@ function UsersTable() {
     }
   };
 
-  useEffect(()=>{
-    dataUsers();
-    handleRoles();
-  },[])
+  //funcion para traer los roles
+  const handleRoles = async ()=>{
+    const dataRoles = await getRoles();
+    setRoles(dataRoles);
+  }
 
+  //funcion para editar los roles
+  const handleRoleChange = (event) => {
+    setSelectedRole(event.target.value); // Almacena el id del rol seleccionado
+  };
+
+  //funcion del boton para editar users
   const handleEditClick = (id) => {
     setEditingUserId(id);
   };
 
-  const handleSaveClick = (id) => {
+  //funcion para editar users
+  const handleSaveClick = async (id) => {
+    try {
+      const update = await updateUser(id, {
+        nombres: nombres,
+        correo: correo,
+        contraseña: contraseña,
+        roles: selectedRole
+      });
+      if(update){
+        setIsUserUpdated(true);
+        setEditingUserId(null);
+        Swal.fire({
+          title: 'Usuario editado',
+          text: 'El usuario ha sido editado exitosamente',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        });
+      }
+      console.log('user', update)
+    } catch (error) {
+      console.error('Error updating user:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Hubo un problema al editar el usuario',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
+    }
     setEditingUserId(null);
   };
 
-  const handleInputChange = (e, id) => {
-    const { name, value } = e.target;
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === id ? { ...user, [name]: value } : user
-      )
-    );
-  };
+  const handleDeleteUser = async (id) => {
+    try {
+      const deleteUser = await deteleUser(id);
+      if(deleteUser){
+        setIsUserUpdated(true);
+        Swal.fire({
+          title: 'Usuario eliminado',
+          text: 'El usuario ha sido eliminado exitosamente',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        });
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Hubo un problema al eliminar el usuario',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
+    }
+  }
+
+  useEffect(()=>{
+    dataUsers();
+    handleRoles();
+    //en caso de haberse editado renderiza el componente para ver los cambios
+    if (isUserUpdated) {
+      dataUsers(); // Vuelve a cargar los usuarios
+      setIsUserUpdated(false); // Resetea el estado para no volver a hacer la llamada innecesariamente
+    }
+  },[isUserUpdated])
 
 
   return (
@@ -62,7 +121,7 @@ function UsersTable() {
             <th>{t('users.name')}</th>
             <th>{t('users.id')}</th>
             <th>{t('users.date')}</th>
-            <th>{t('users.correo')}</th>
+            <th>{t('users.email')}</th>
             <th>{t('users.role')}</th>
             <th>{t('users.detail')}</th>
             <th></th>
@@ -87,9 +146,10 @@ function UsersTable() {
                     <input
                       type="text"
                       name="name"
-                      value={user.nombres}
-                      onChange={(e) => handleInputChange(e, user.id_usuario)}
+                      value={nombres}
+                      onChange={(e)=> setNombres(e.target.value)}
                       className="input input-sm input-bordered w-full max-w-xs"
+                      placeholder={user.nombres}
                     />
                   ) : (
                     <div className="flex items-center gap-3">
@@ -113,9 +173,10 @@ function UsersTable() {
                     <input
                       type="text"
                       name="role"
-                      value={user.correo}
-                      onChange={(e) => handleInputChange(e, user.id_usuario)}
+                      value={correo}
+                      onChange={(e)=> setCorreo(e.target.value)}
                       className="input input-sm input-bordered w-full max-w-xs"
+                      placeholder={user.correo}
                     />
                   ) : (
                     <span className="badge badge-ghost badge-sm">{user.correo}</span>
@@ -123,17 +184,31 @@ function UsersTable() {
                 </td>
                 <td>
                   {editingUserId === user.id_usuario ? (
-                    <select className="select select-bordered select-xs w-full max-w-xs">
-                      <option disabled selected>{user.rol.nombre}</option>
-                      <option>administrados</option>
-                      <option>tecnico</option>
-                      <option>Cliente</option>
-                    </select>
+                    <select className="select select-bordered select-xs h-[40px] w-full max-w-lg" value={selectedRole} onChange={handleRoleChange}>
+                    {roles?.length > 0 && roles.map((role) => (
+                      <option key={role.id_rol} value={role.id_rol}>
+                        {role.nombre}
+                      </option>
+                    ))}
+                    </select> 
+                    ) : (
+                      <span className="badge badge-ghost badge-sm">{user.rol.nombre}</span>
+                    )}
+                </td>
+                <td>
+                {editingUserId === user.id_usuario ? (
+                    <input
+                      type="text"
+                      name="role"
+                      value={contraseña}
+                      onChange={(e)=> setContraseña(e.target.value)}
+                      className="input input-sm input-bordered w-full max-w-xs"
+                      placeholder={user.contraseña}
+                    />
                   ) : (
-                    <span className="badge badge-ghost badge-sm">{user.rol.nombre}</span>
+                    <span className="badge badge-ghost badge-sm">{user.contraseña}</span>
                   )}
                 </td>
-                <td>{user.detail}</td>
                 <th>
                   {editingUserId === user.id_usuario ? (
                     <button
@@ -143,12 +218,20 @@ function UsersTable() {
                       {t('users.save')}
                     </button>
                   ) : (
+                    <div className='flex gap-2'>
                     <button
                       className="btn btn-outline btn-xs bg-Blue400 text-white hover:bg-Blue600"
                       onClick={() => handleEditClick(user.id_usuario)}
                     >
                       {t('users.edituser')}
                     </button>
+                    <button
+                      className="btn btn-outline btn-xs bg-Blue400 text-white hover:bg-Blue600"
+                      onClick={() => handleDeleteUser(user.id_usuario)}
+                    >
+                      {t('users.delete')}
+                    </button>
+                    </div>
                   )}
                 </th>
               </tr>

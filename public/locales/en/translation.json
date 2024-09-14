@@ -17,11 +17,13 @@
     "adduser": "Add User",
     "edituser": "Edit",
     "save": "Save",
+    "delete": "Delete",
     "name": "Name",
     "id": "ID",
     "date": "Date",
     "status": "Status",
     "role": "Role",
+    "email": "Email",
     "detail": "Detail",
     "active": "Active",
     "inactive": "Inactive"
