@@ -1,5 +1,3 @@
-import env from "react-dotenv";
-// const api = env.API_URL;
 const api = 'http://localhost:3004'
 
 const getAllUsers = async ()=>{
@@ -40,6 +38,21 @@ const updateUser = async (id, data)=>{
   return response.json();
 };
 
+const deteleUser = async (id)=> {
+  const payload = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const response = await fetch(`${api}/api/users/${id}`, payload);
+  if (!response.ok) {
+    throw new Error('Error en la conexion');
+  }
+  return response.json();
 
-export  {getAllUsers, createusers, updateUser}
+}
+
+
+export  {getAllUsers, createusers, updateUser, deteleUser}
 

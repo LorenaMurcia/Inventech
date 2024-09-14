@@ -1,34 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getAllUsers, updateUser, } from '../Servicios/usuarios';
+import { deteleUser, getAllUsers, updateUser, } from '../Servicios/usuarios';
 import { getRoles } from '../Servicios/rol';
 import Swal from 'sweetalert2';
 
 
 function UsersTable() {
-  const [editingUserId, setEditingUserId] = useState(null);
   const [users, setUsers] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-  const [nombres, setNombres] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [contraseña, setContraseña] = useState('');
   const [roles, setRoles] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [nombres, setNombres] = useState('');
+  const [contraseña, setContraseña] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedRole, setSelectedRole] = useState('');
-  console.log(selectedRole)
+  const [editingUserId, setEditingUserId] = useState(null);
   const [isUserUpdated, setIsUserUpdated] = useState(false); 
 
   const { t } = useTranslation();
 
-  const handleRoles = async ()=>{
-    const dataRoles = await getRoles();
-    setRoles(dataRoles);
-  }
-
-  const handleRoleChange = (event) => {
-    setSelectedRole(event.target.value); // Almacena el id del rol seleccionado
-  };
-
-
+  //funcion para traer la data de usuarios
   const dataUsers = async () => {
     try {
       const data = await getAllUsers();
@@ -40,14 +30,24 @@ function UsersTable() {
     }
   };
 
+  //funcion para traer los roles
+  const handleRoles = async ()=>{
+    const dataRoles = await getRoles();
+    setRoles(dataRoles);
+  }
+
+  //funcion para editar los roles
+  const handleRoleChange = (event) => {
+    setSelectedRole(event.target.value); // Almacena el id del rol seleccionado
+  };
+
+  //funcion del boton para editar users
   const handleEditClick = (id) => {
-    console.log('id', id)
     setEditingUserId(id);
   };
 
-
+  //funcion para editar users
   const handleSaveClick = async (id) => {
-    console.log('id', id)
     try {
       const update = await updateUser(id, {
         nombres: nombres,
@@ -78,9 +78,33 @@ function UsersTable() {
     setEditingUserId(null);
   };
 
+  const handleDeleteUser = async (id) => {
+    try {
+      const deleteUser = await deteleUser(id);
+      if(deleteUser){
+        setIsUserUpdated(true);
+        Swal.fire({
+          title: 'Usuario eliminado',
+          text: 'El usuario ha sido eliminado exitosamente',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        });
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Hubo un problema al eliminar el usuario',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
+    }
+  }
+
   useEffect(()=>{
     dataUsers();
     handleRoles();
+    //en caso de haberse editado renderiza el componente para ver los cambios
     if (isUserUpdated) {
       dataUsers(); // Vuelve a cargar los usuarios
       setIsUserUpdated(false); // Resetea el estado para no volver a hacer la llamada innecesariamente
@@ -97,7 +121,7 @@ function UsersTable() {
             <th>{t('users.name')}</th>
             <th>{t('users.id')}</th>
             <th>{t('users.date')}</th>
-            <th>{t('users.correo')}</th>
+            <th>{t('users.email')}</th>
             <th>{t('users.role')}</th>
             <th>{t('users.detail')}</th>
             <th></th>
@@ -194,12 +218,20 @@ function UsersTable() {
                       {t('users.save')}
                     </button>
                   ) : (
+                    <div className='flex gap-2'>
                     <button
                       className="btn btn-outline btn-xs bg-Blue400 text-white hover:bg-Blue600"
                       onClick={() => handleEditClick(user.id_usuario)}
                     >
                       {t('users.edituser')}
                     </button>
+                    <button
+                      className="btn btn-outline btn-xs bg-Blue400 text-white hover:bg-Blue600"
+                      onClick={() => handleDeleteUser(user.id_usuario)}
+                    >
+                      {t('users.delete')}
+                    </button>
+                    </div>
                   )}
                 </th>
               </tr>
