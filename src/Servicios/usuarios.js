@@ -11,14 +11,18 @@ const response = await fetch(`${api}/api/users`)
 }
 
 const createusers = async (data)=>{
-  const response = await fetch(`${api}/api/users`, {
-    method: 'POST',
-    body: data
-    })
-    if (!response.ok) {
-      throw new Error('Error en la conexion');
-    }
-    return response.json();
+  const payload = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+  const response = await fetch(`${api}/api/users`, payload)
+  if (!response.ok) {
+    throw new Error('Error en la conexion');
+  }
+  return response.json();
 }
 
 

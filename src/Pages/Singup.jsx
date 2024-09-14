@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createusers } from '../Servicios/usuarios';
 import { getRoles } from '../Servicios/rol';
+import Swal from 'sweetalert2';
 
 function Singup() {
   const { t } = useTranslation();
@@ -9,19 +10,39 @@ function Singup() {
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [roles, setRoles] = useState('');
+  const [selectedRole, setSelectedRole] = useState('');
 
   const handleRoles = async ()=>{
     const dataRoles = await getRoles();
     setRoles(dataRoles);
   }
 
+  const handleRoleChange = (event) => {
+    setSelectedRole(event.target.value); // Almacena el id del rol seleccionado
+  };
+
 
   const submit = async (e)=>{
-    e.preventDefault;
-    const fecha_creacion = new Date();
-    const sendData = await createusers({nombres, correo, contraseña, id_rol, fecha_creacion});
-    if(sendData){
-      alert('Usuario creado con exito');
+    e.preventDefault();
+    try {
+      const fecha_creacion = new Date();
+      const sendData = await createusers({nombres, correo, contraseña, id_rol : selectedRole, fecha_creacion});
+      console.log(sendData);
+      Swal.fire({
+        title: 'Usuario creado',
+        text: 'El usuario ha sido creado exitosamente',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
+      
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Hubo un problema al crear el usuario',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
     }
   }
 
@@ -71,13 +92,12 @@ function Singup() {
             </svg>
             <input type="password" className='flex-1 border-none outline-none'  placeholder={t('singup.password')} onChange={(e)=> setContraseña(e.target.value)}  value={contraseña} />
           </label>
-          <select className="select select-bordered select-xs h-[40px] w-full max-w-lg">
-            {roles?.map((role )=>(
-              <option key={role.id_rol} value={role.id_rol}>{role.nombre}</option>
-            ))}
-            {/* <option disabled selected>{t('singup.role')}</option>
-            <option>Técnico</option>
-            <option>Cliente</option> */}
+          <select className="select select-bordered select-xs h-[40px] w-full max-w-lg" value={selectedRole} onChange={handleRoleChange}>
+          {roles?.length > 0 && roles.map((role) => (
+            <option key={role.id_rol} value={role.id_rol}>
+              {role.nombre}
+            </option>
+          ))}
           </select>
           <button type='submit' className='w-full rounded-md bg-Blue900 px-4 py-2 font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'>
           {t('singup.btnlogin')}
