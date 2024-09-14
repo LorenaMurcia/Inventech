@@ -1,47 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import getAllEquipos from '../Servicios/equipos';
 
 function DeviceTable() {
     const [editingDeviceId, setEditingDeviceId] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const [devices, setDevices] = useState([
-        {
-            id: 1,            
-            brand: "HP",
-            serial: "XLM55G",
-            type: "Portátil",
-            ram: "16 GB",
-            disk: "500 GB",
-            processor: "Intel core i5",
-            date: new Date().toLocaleDateString(),
-            user: "Juanita Pérez"
-        },
-        {
-            id: 2,            
-            brand: "Dell",
-            serial: "ASD12F",
-            type: "Escritorio",
-            ram: "8 GB",
-            disk: "1 TB",
-            processor: "Intel core i7",
-            date: new Date().toLocaleDateString(),
-            user: "Armando Paredes"
-        },
-        {
-            id: 3,            
-            brand: "Asus",
-            serial: "AJBU15LM",
-            type: "Portátil",
-            ram: "16 GB",
-            disk: "1 TB",
-            processor: "Intel core i3",
-            date: new Date().toLocaleDateString(),
-            user: "Alam Brito"
-        }
-    ]);
+    const [devices, setDevices] = useState();
+    const [isLoading, setIsLoading] = useState(true);
+    const [marca, setMarca] = useState ('');
+    // const [serial, setSerial] = useState ('');
+    //const [tipo, setTipo] = useState ('');
+    // const [ram, setRam] = useState ('');
+    // const [disco, setDisco] = useState ('');
+    // const [procesador, setProcesador] = useState ('');
+    // const [usuario, setUsuario] = useState ('');
 
     const { t } = useTranslation();
+
+    const allEquipos = async() => {
+        try {
+            const data = await getAllEquipos();
+            console.log(data)
+            setDevices(data);
+        } catch (error) {
+            console.log("Error trayendo los equipos" + error)
+        } finally    {
+            setIsLoading(false);
+        }  
+    };
+
+    const traerMarca = async() => {
+        const getMarca = await getMarca();
+        setMarca(getMarca);
+    }
+
+    const traerTipo = async() => {
+        //const getTipo = await getTipo();
+        setTipo(getTipo);
+    }
+
+    useEffect(() => {
+        allEquipos();     
+        traerMarca();         
+    },[])
 
     const handleEditClick = (id) => {
         setEditingDeviceId(id);
@@ -60,11 +62,11 @@ function DeviceTable() {
         );
     };
 
-    const filteredDevices = devices.filter((device) =>
+    /*const filteredDevices = devices.filter((device) =>
         Object.values(device).some((value) =>
             typeof value === 'string' && value.toLowerCase().includes(searchTerm.toLowerCase())
         )
-    );
+    );*/
 
     return (
         <>
@@ -94,122 +96,22 @@ function DeviceTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredDevices.map((device) => (
-                            <tr key={device.id}>
-                                <td>{device.id}</td>                                
-                                <td>
-                                    {editingDeviceId === device.id ? (
-                                        <input
-                                            type="text"
-                                            name="brand"
-                                            value={device.brand}
-                                            onChange={(e) => handleInputChange(e, device.id)}
-                                            className="input input-sm input-bordered w-full max-w-xs"
-                                        />
-                                    ) : (
-                                        device.brand
-                                    )}
-                                </td>
-                                <td>
-                                    {editingDeviceId === device.id ? (
-                                        <input
-                                            type="text"
-                                            name="serial"
-                                            value={device.serial}
-                                            onChange={(e) => handleInputChange(e, device.id)}
-                                            className="input input-sm input-bordered w-full max-w-xs"
-                                        />
-                                    ) : (
-                                        device.serial
-                                    )}
-                                </td>
-                                <td>
-                                    {editingDeviceId === device.id ? (
-                                        <select
-                                            name="type"
-                                            value={device.type}
-                                            onChange={(e) => handleInputChange(e, device.id)}
-                                            className="select select-bordered select-xs w-full max-w-xs"
-                                        >
-                                            <option value="Portátil">{t('device.laptop')}</option>
-                                            <option value="Escritorio">{t('device.desktop')}</option>
-                                        </select>
-                                    ) : (
-                                        device.type
-                                    )}
-                                </td>
-                                <td>
-                                    {editingDeviceId === device.id ? (
-                                        <input
-                                            type="text"
-                                            name="ram"
-                                            value={device.ram}
-                                            onChange={(e) => handleInputChange(e, device.id)}
-                                            className="input input-sm input-bordered w-full max-w-xs"
-                                        />
-                                    ) : (
-                                        device.ram
-                                    )}
-                                </td>
-                                <td>
-                                    {editingDeviceId === device.id ? (
-                                        <input
-                                            type="text"
-                                            name="disk"
-                                            value={device.disk}
-                                            onChange={(e) => handleInputChange(e, device.id)}
-                                            className="input input-sm input-bordered w-full max-w-xs"
-                                        />
-                                    ) : (
-                                        device.disk
-                                    )}
-                                </td>
-                                <td>
-                                    {editingDeviceId === device.id ? (
-                                        <input
-                                            type="text"
-                                            name="processor"
-                                            value={device.processor}
-                                            onChange={(e) => handleInputChange(e, device.id)}
-                                            className="input input-sm input-bordered w-full max-w-xs"
-                                        />
-                                    ) : (
-                                        device.processor
-                                    )}
-                                </td>
-                                <td>{device.date}</td>
-                                <td>
-                                    {editingDeviceId === device.id ? (
-                                        <input
-                                            type="text"
-                                            name="user"
-                                            value={device.user}
-                                            onChange={(e) => handleInputChange(e, device.id)}
-                                            className="input input-sm input-bordered w-full max-w-xs"
-                                        />
-                                    ) : (
-                                        device.user
-                                    )}
-                                </td>
-                                <td>
-                                    {editingDeviceId === device.id ? (
-                                        <button
-                                            className="btn btn-xs bg-lime-700 text-white hover:bg-lime-600"
-                                            onClick={() => handleSaveClick(device.id)}
-                                        >
-                                            {t('device.btnsave')}
-                                        </button>
-                                    ) : (
-                                        <button
-                                            className="btn btn-outline btn-xs bg-Blue400 text-white hover:bg-Blue600"
-                                            onClick={() => handleEditClick(device.id)}
-                                        >
-                                            {t('device.btnedit')}
-                                        </button>
-                                    )}
-                                </td>
-                            </tr>
-                        ))}
+                        {
+                            devices?.map((device,marca)=>(
+                                <tr key={device.id_equipo}>
+                                     <td>{device.id_equipo}</td>
+                                     <td>{device.marca.marca_fabricante}</td>
+                                     <td>{device.serial}</td>  
+                                     <td>{device.tipo.descripcion}</td>  
+                                     <td>{device.memoria_ram}</td>  
+                                     <td>{device.disco_duro}</td>  
+                                     <td>{device.procesador}</td>  
+                                     <td>{device.fecha_registro}</td>  
+                                     <td>{device.id_usuario}</td>  
+                                </tr>
+                            ))
+                        }
+                        
                     </tbody>
                 </table>
             </div>
