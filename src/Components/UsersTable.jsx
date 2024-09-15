@@ -36,7 +36,7 @@ function UsersTable() {
     setRoles(dataRoles);
   }
 
-  //funcion para editar los roles
+  //funcion para seleccionar los roles
   const handleRoleChange = (event) => {
     setSelectedRole(event.target.value); // Almacena el id del rol seleccionado
   };
