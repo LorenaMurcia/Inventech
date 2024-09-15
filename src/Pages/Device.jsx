@@ -7,16 +7,6 @@ import getAllMarcas from '../Servicios/marcas'
 import { getAllTipos } from '../Servicios/tipo_dispositivo'
 import Swal from 'sweetalert2';
 
-// Para la funcion de crear
-// fecha_registro: enviar como new Date
-// id_usuario: get de usuarios -> Select
-// id_marca : get de las marcas -> SELECT
-// serial : input
-// id_tipo : tipo de dispositivo, get de dispositivos -> Select
-// memoria_ram : input
-// disco_duro : input
-// procesador: input
-
 function Device () {
   const { t } = useTranslation()
   const [usuarios, setUsuarios] = useState([])

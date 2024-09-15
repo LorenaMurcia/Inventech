@@ -90,23 +90,8 @@ function DeviceTable () {
       setIsEquipoUpdated(false)
     }
   }, [isEquipoUpdated])
-  /*const filteredDevices = devices.filter((device) =>
-        Object.values(device).some((value) =>
-            typeof value === 'string' && value.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-    );*/
-
   return (
     <>
-      <div className='mb-4 flex w-full flex-col items-center justify-center'>
-        <input
-          type='text'
-          placeholder={t('device.search')}
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-          className='input input-bordered w-full max-w-xs'
-        />
-      </div>
       <div className='overflow-x-auto'>
         <table className='table rounded-lg bg-Blue50 p-6 shadow-lg'>
           <thead>
