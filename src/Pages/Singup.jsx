@@ -27,7 +27,6 @@ function Singup() {
     try {
       const fecha_creacion = new Date();
       const sendData = await createusers({nombres, correo, contraseña, id_rol : selectedRole, fecha_creacion});
-      console.log(sendData);
       Swal.fire({
         title: 'Usuario creado',
         text: 'El usuario ha sido creado exitosamente',
