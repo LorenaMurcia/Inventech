@@ -116,7 +116,6 @@ function UsersTable() {
       <table className="table rounded-lg bg-Blue50 p-6 shadow-lg">
         <thead>
           <tr>
-            <th></th>
             <th>{t('users.name')}</th>
             <th>{t('users.id')}</th>
             <th>{t('users.date')}</th>
@@ -135,11 +134,6 @@ function UsersTable() {
           ) : users && (
             users.map((user) => (
               <tr key={user.id}>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
                 <td>
                   {editingUserId === user.id_usuario ? (
                     <input

@@ -99,96 +99,96 @@ function DeviceTable() {
 
     return (
         <>
-            <div className="mb-4 flex flex-col justify-center items-center w-full">
-                <input
-                    type="text"
-                    placeholder={t('device.search')}
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="input input-bordered w-full max-w-xs"
-                />
-            </div>
-            <div className="overflow-x-auto">
-                <table className="table rounded-lg bg-Blue50 p-6 shadow-lg">
-                    <thead>
-                        <tr>
-                            <th>{t('device.id')}</th>
-                            <th>{t('device.brand')}</th>
-                            <th>{t('device.serial')}</th>
-                            <th>{t('device.type')}</th>
-                            <th>{t('device.ram')}</th>
-                            <th>{t('device.disk')}</th>
-                            <th>{t('device.processor')}</th>
-                            <th>{t('device.date')}</th>
-                            <th>{t('device.user')}</th>
-                            <th>{t('device.actions')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            devices?.map((device) => (
-                                <tr key={device.id_equipo}>
-                                    <td>{device.id_equipo}</td>
-                                    <td>{device.marca.marca_fabricante}</td>
-                                    <td>{device.serial}</td>
-                                    <td>{device.TipoDispositivo.descripcion}</td>
-                                    <td>
-                                        {editingDeviceId === device.id_equipo ?(
-                                            <input
-                                            type="text"
-                                            name="role"
-                                            value={editarMemoria}
-                                            onChange={(e)=> setEditarMemoria(e.target.value)}
-                                            className="input input-sm input-bordered w-full max-w-xs"
-                                            placeholder={device.memoria_ram}
-                                          />
-                                        ) : (
-                                            <span className="badge badge-ghost badge-sm"> {device.memoria_ram}</span>
-                                        )}
-                                        </td>
-                                    <td>
-                                        {editingDeviceId === device.id_equipo ?(
-                                            <input
-                                            type="text"
-                                            name="role"
-                                            value={editarDisco}
-                                            onChange={(e)=> setEditarDisco(e.target.value)}
-                                            className="input input-sm input-bordered w-full max-w-xs"
-                                            placeholder={device.disco_duro}
-                                          />
-                                        ) : (
-                                            <span className="badge badge-ghost badge-sm"> {device.disco_duro}</span>
-                                        )}
+        <div className="mb-4 flex w-full flex-col items-center justify-center">
+            <input
+                type="text"
+                placeholder={t('device.search')}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="input input-bordered w-full max-w-xs"
+            />
+        </div>
+        <div className="overflow-x-auto">
+            <table className="table rounded-lg bg-Blue50 p-6 shadow-lg">
+                <thead>
+                    <tr>
+                        <th>{t('device.id')}</th>
+                        <th>{t('device.brand')}</th>
+                        <th>{t('device.serial')}</th>
+                        <th>{t('device.type')}</th>
+                        <th>{t('device.ram')}</th>
+                        <th>{t('device.disk')}</th>
+                        <th>{t('device.processor')}</th>
+                        <th>{t('device.date')}</th>
+                        <th>{t('device.user')}</th>
+                        <th>{t('device.actions')}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        devices?.map((device) => (
+                            <tr key={device.id_equipo}>
+                                <td>{device.id_equipo}</td>
+                                <td>{device.marca.marca_fabricante}</td>
+                                <td>{device.serial}</td>
+                                <td>{device.TipoDispositivo.descripcion}</td>
+                                <td>
+                                    {editingDeviceId === device.id_equipo ?(
+                                        <input
+                                        type="text"
+                                        name="role"
+                                        value={editarMemoria}
+                                        onChange={(e)=> setEditarMemoria(e.target.value)}
+                                        className="input input-sm input-bordered w-full max-w-xs"
+                                        placeholder={device.memoria_ram}
+                                        />
+                                    ) : (
+                                        <span className="badge badge-ghost badge-sm"> {device.memoria_ram}</span>
+                                    )}
                                     </td>
-                                    <td>{device.procesador}</td>
-                                    <td>{device.fecha_registro}</td>
-                                    <td>{device.UsuarioResponsable.nombres}</td>
-                                    <td>
-                                        {editingDeviceId === device.id_equipo ? (
+                                <td>
+                                    {editingDeviceId === device.id_equipo ?(
+                                        <input
+                                        type="text"
+                                        name="role"
+                                        value={editarDisco}
+                                        onChange={(e)=> setEditarDisco(e.target.value)}
+                                        className="input input-sm input-bordered w-full max-w-xs"
+                                        placeholder={device.disco_duro}
+                                        />
+                                    ) : (
+                                        <span className="badge badge-ghost badge-sm"> {device.disco_duro}</span>
+                                    )}
+                                </td>
+                                <td>{device.procesador}</td>
+                                <td>{device.fecha_registro}</td>
+                                <td>{device.UsuarioResponsable.nombres}</td>
+                                <td>
+                                    {editingDeviceId === device.id_equipo ? (
+                                        <button
+                                            className="btn btn-xs bg-lime-700 text-white hover:bg-lime-600"
+                                            onClick={() => handleSaveClick(device.id_equipo)}
+                                        >Guardar</button>
+                                    ) : (
+                                        <div className='flex gap-2'>
                                             <button
-                                                className="btn btn-xs bg-lime-700 text-white hover:bg-lime-600"
-                                                onClick={() => handleSaveClick(device.id_equipo)}
-                                            >Guardar</button>
-                                        ) : (
-                                            <div className='flex gap-2'>
-                                                <button
-                                                    className="btn btn-outline btn-xs bg-Blue400 text-white hover:bg-Blue600"
-                                                    onClick={() => handleEditClick(device.id_equipo)}
-                                                >Editar</button>
-                                                <button
-                                                    className="btn btn-outline btn-xs bg-Blue400 text-white hover:bg-Blue600"
-                                                    onClick={() => handleDeleteEquipo(device.id_equipo)}
-                                                >Eliminar</button>
-                                            </div>
-                                        )}
-                                    </td>
-                                </tr>
-                            ))
-                        }
+                                                className="btn btn-outline btn-xs bg-Blue400 text-white hover:bg-Blue600"
+                                                onClick={() => handleEditClick(device.id_equipo)}
+                                            >Editar</button>
+                                            <button
+                                                className="btn btn-outline btn-xs bg-Blue400 text-white hover:bg-Blue600"
+                                                onClick={() => handleDeleteEquipo(device.id_equipo)}
+                                            >Eliminar</button>
+                                        </div>
+                                    )}
+                                </td>
+                            </tr>
+                        ))
+                    }
 
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
+        </div>
         </>
     );
 }
