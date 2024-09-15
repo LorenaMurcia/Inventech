@@ -11,6 +11,7 @@ const getAllEquipos = async () => {
 };
 
 const createEquipos = async (data)=>{
+  console.log(data)
     const payload = {
       method: "POST",
       headers: {
