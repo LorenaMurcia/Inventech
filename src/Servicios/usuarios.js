@@ -62,6 +62,21 @@ const deteleUser = async (id)=> {
 
 }
 
+const atuhLogin = async (data)=>{
+  const payload = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data)
+  }
+  const response = await fetch(`${api}/api/users/auth/login`, payload);
+  if (!response.ok) {
+    throw new Error('Error en la conexion');
+  }
+  return response.json();
+}
 
-export  {getAllUsers, createusers, updateUser, deteleUser, getOneUser}
+
+export  {getAllUsers, createusers, updateUser, deteleUser, getOneUser, atuhLogin}
 
