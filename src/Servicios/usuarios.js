@@ -1,5 +1,3 @@
-import env from "react-dotenv";
-// const api = env.API_URL;
 const api = 'http://localhost:3004'
 
 const getAllUsers = async ()=>{
@@ -9,6 +7,15 @@ const response = await fetch(`${api}/api/users`)
   }
   return response.json();
 };
+
+const getOneUser = async (id)=>{
+  const response = await fetch(`${api}/api/users/${id}`)
+  if (!response.ok) {
+    throw new Error('Error en la conexion');
+  }
+  return response.json();
+
+}
 
 const createusers = async (data)=>{
   const payload = {
@@ -25,14 +32,28 @@ const createusers = async (data)=>{
   return response.json();
 };
 
-const updateUsers = async (id, data)=>{
+const updateUser = async (id, data)=>{
   const payload = {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
+  };
+  const response = await fetch(`${api}/api/users/${id}`, payload);
+  if (!response.ok) {
+    throw new Error('Error en la conexion');
   }
+  return response.json();
+};
+
+const deteleUser = async (id)=> {
+  const payload = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
   const response = await fetch(`${api}/api/users/${id}`, payload);
   if (!response.ok) {
     throw new Error('Error en la conexion');
@@ -42,5 +63,5 @@ const updateUsers = async (id, data)=>{
 }
 
 
-export  {getAllUsers, createusers, updateUsers}
+export  {getAllUsers, createusers, updateUser, deteleUser, getOneUser}
 

@@ -1,10 +1,22 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { createEquipos } from '../Servicios/equipos';
 
 function Device() {
     const { t } = useTranslation();
-
+    const crearEquipo = async (e) => {
+        e.preventDefault();
+        try {
+            const fecha_registro = new Date();
+            const sendData = await createEquipos({
+                id_marca
+            })
+        } catch (error) {
+            
+        }
+        createEquipos();
+    }
     return (
         <div className='flex min-h-screen items-center justify-center p-4'>
             <div className='h-[600px] w-full max-w-md rounded-lg bg-Blue100 p-6 shadow-lg'>
