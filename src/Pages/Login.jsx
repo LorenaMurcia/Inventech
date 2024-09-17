@@ -11,7 +11,7 @@ function Login() {
   const [correo, setCorreo] = useState("");
   const [contraseña, setContraseña] = useState("");
   const navigate = useNavigate();
-  const { login, token } = useContext(AuthContext);
+  const { login, token, role } = useContext(AuthContext);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -22,7 +22,15 @@ function Login() {
         const token = dataLogin.token;
         // Guarda el token en el context por ende en el localStorage
         login(token);
-        navigate("/deviceManagment");
+        if (role == 1) {
+          navigate("/usersPanel");
+        } else if (role == 2) {
+          navigate("/deviceManagment");
+        } else if (role == 3) {
+          navigate("/maintenance");
+        } else {
+          navigate("/deviceManagment");
+        }
       }
     } catch (error) {
       console.error(error);
