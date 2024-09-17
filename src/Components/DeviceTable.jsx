@@ -158,7 +158,7 @@ function DeviceTable () {
                       className='btn btn-xs bg-lime-700 text-white hover:bg-lime-600'
                       onClick={() => handleSaveClick(device.id_equipo)}
                     >
-                      Guardar
+                     {t('device.btnsave')}
                     </button>
                   ) : (
                     <div className='flex gap-2'>
@@ -166,13 +166,13 @@ function DeviceTable () {
                         className='btn btn-outline btn-xs bg-Blue400 text-white hover:bg-Blue600'
                         onClick={() => handleEditClick(device.id_equipo)}
                       >
-                        Editar
+                        {t('device.btnedit')}
                       </button>
                       <button
                         className='btn btn-outline btn-xs bg-Blue400 text-white hover:bg-Blue600'
                         onClick={() => handleDeleteEquipo(device.id_equipo)}
                       >
-                        Eliminar
+                        {t('device.btndelete')}
                       </button>
                     </div>
                   )}
