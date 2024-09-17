@@ -5,6 +5,7 @@ import { atuhLogin } from "../Servicios/usuarios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/authContext";
+import { jwtDecode } from "jwt-decode";
 
 function Login() {
   const { t } = useTranslation();
@@ -12,6 +13,7 @@ function Login() {
   const [contraseña, setContraseña] = useState("");
   const navigate = useNavigate();
   const { login, token, role } = useContext(AuthContext);
+  console.log(role)
 
   const submit = async (e) => {
     e.preventDefault();
@@ -22,14 +24,15 @@ function Login() {
         const token = dataLogin.token;
         // Guarda el token en el context por ende en el localStorage
         login(token);
-        if (role == 1) {
+        const decoded = jwtDecode(token);
+        if (decoded.id_rol === 1) {
           navigate("/usersPanel");
-        } else if (role == 2) {
+        }
+        if (decoded.id_rol === 2) {
           navigate("/deviceManagment");
-        } else if (role == 3) {
+        }
+        if (decoded.id_rol === 3) {
           navigate("/maintenance");
-        } else {
-          navigate("/deviceManagment");
         }
       }
     } catch (error) {
@@ -45,7 +48,15 @@ function Login() {
 
   useEffect(() => {
     if (token) {
-      navigate("/deviceManagment");
+      if (role == 1) {
+        navigate("/usersPanel");
+      } else if (role == 2) {
+        navigate("/deviceManagment");
+      } else if (role == 3) {
+        navigate("/maintenance");
+      } else {
+        navigate("/deviceManagment");
+      }
     }
   }, []);
 
