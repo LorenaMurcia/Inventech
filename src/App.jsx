@@ -11,6 +11,7 @@ import PageError from './Pages/PageError/PageError'
 import DeviceManagement from './Pages/DeviceManagement'
 import ObservationsCard from './Pages/ObservationsCard'
 import Device from './Pages/Device'
+import NewMaintenance from './Pages/NewMaintenance'
 
 function App () {
   return (
@@ -31,11 +32,8 @@ function App () {
             <Route path='/device' element={<Device />} />
             {/* Johan */}
             <Route path='/maintenance' element={<Maintenance />} />
+            <Route path='/maintenance/new' element={<NewMaintenance />} />
             <Route path='/observations/:id' element={<ObservationsCard />} />
-            <Route
-              path='/observations/:id/:id'
-              element={<ObservationsCard />}
-            />
           </Routes>
         </div>
         <Footer />
