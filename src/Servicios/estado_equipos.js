@@ -1,6 +1,6 @@
 const api = 'http://localhost:3004'
 
-const getAllEquipos = async () =>{
+const getAllEstadoEquipos = async () => {
   const response = await fetch(`${api}/api/estado_equipos`)
   if (!response.ok) {
     throw new Error('Error en la conexion');
@@ -8,4 +8,4 @@ const getAllEquipos = async () =>{
   return response.json();
 }
 
-export default getAllEquipos;
+export { getAllEstadoEquipos };

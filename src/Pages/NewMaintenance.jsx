@@ -18,7 +18,6 @@ const NewMaintenance = () => {
     const fetchEquipos = async () => {
       try {
         const equipos = await getAllEquipos();
-        // Create array of serials from fetched data
         const serials = equipos.map((equipo) => equipo.serial);
         setSerialOptions(serials);
       } catch (error) {
@@ -68,6 +67,7 @@ const NewMaintenance = () => {
           });
         }
       } catch (err) {
+        console.log("🚀 ~ handleSubmit ~ err:", err)
         Swal.fire({
           title: "Error",
           text: "Hubo un problema al crear el mantenimiento.",

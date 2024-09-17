@@ -28,7 +28,7 @@ function Login() {
       console.error(error);
       Swal.fire({
         title: 'Error',
-        text: 'Hubo un problema al crear el usuario',
+        text: 'Datos incorrectos.',
         icon: 'error',
         confirmButtonText: 'Ok',
       });

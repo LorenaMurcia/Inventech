@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllMantenimientos, updateMantenimiento, deleteMantenimiento } from "../Servicios/mantenimientos";
+import { getAllTrazas, updateTraza } from "../Servicios/traza_mantenimiento";
 import Swal from "sweetalert2";
 
-// Helper function to format date
 const dateFormatString = (dateString) => {
   const date = new Date(dateString);
   const day = String(date.getDate()).padStart(2, "0");
@@ -12,11 +12,10 @@ const dateFormatString = (dateString) => {
   return `${day}-${month}-${year}`;
 };
 
-// Helper function to filter maintenances
 const filterMaintenances = (maintenances, searchTerm) =>
   maintenances.filter(
     (maintenance) =>
-      (maintenance.name && maintenance.name.includes(searchTerm)) ||
+      (maintenance.serial && maintenance.serial.includes(searchTerm)) ||
       (maintenance.observations &&
         maintenance.observations.some(
           (obs) =>
@@ -28,74 +27,94 @@ const filterMaintenances = (maintenances, searchTerm) =>
 const Maintenance = () => {
   const [maintenances, setMaintenances] = useState([]);
   const [editingObservationId, setEditingObservationId] = useState(null);
+  const [editingObservationIdTraza, setEditingObservationIdTraza] = useState(null);
   const [editObservationText, setEditObservationText] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 2;
 
-  // Fetch maintenances from API
   useEffect(() => {
     const fetchMaintenances = async () => {
       try {
-        const equipos = await getAllMantenimientos();
-        setMaintenances(
-          equipos.map((e) => ({
+        const mantenimientos = await getAllMantenimientos();
+        const traza = await getAllTrazas();
+        console.log("🚀 ~ fetchMaintenances ~ traza:", traza);
+
+        const maintenancesWithObservations = mantenimientos.map((e) => {
+          const maintenanceObservations = [
+            {
+              observation: e.diagnostico_inicial,
+              date: dateFormatString(e.fecha_recepcion),
+              id_traza: 0,
+            },
+          ];
+
+          const relatedTraza = traza.filter((t) => t.id_mantenimiento === e.id_mantenimiento);
+          relatedTraza.forEach((t) => {
+            maintenanceObservations.push({
+              observation: t.descripcion,
+              date: dateFormatString(t.fecha),
+              id_traza: t.id_traza,
+            });
+          });
+
+          return {
             id: e.id_mantenimiento,
-            name: e.serial,
+            serial: e.serial,
             date: e.fecha_recepcion,
-            observations: [
-              {
-                observation: e.diagnostico_inicial,
-                date: dateFormatString(e.fecha_recepcion),
-              },
-            ],
-          }))
-        );
+            observations: maintenanceObservations,
+          };
+        });
+        console.log("🚀 ~ fetchMaintenances ~ maintenancesWithObservations:", maintenancesWithObservations);
+        setMaintenances(maintenancesWithObservations);
       } catch (error) {
-        console.error("Error fetching equipos:", error);
+        console.error("Error fetching mantenimientos:", error);
       }
     };
     fetchMaintenances();
   }, []);
 
-  // Handle edit click
-  const handleEditClick = (obsId, currentObservation) => {
+  const handleEditClick = (obsId, currentObservation, trazaId) => {
     setEditingObservationId(obsId);
+    setEditingObservationIdTraza(trazaId);
     setEditObservationText(currentObservation);
   };
 
-  // Handle save click
   const handleSaveClick = async (maintenanceId) => {
     try {
       const newObservation = editObservationText;
-      await updateMantenimiento(maintenanceId, {
-        id_mantenimiento: maintenanceId,
-        serial: maintenances.find((m) => m.id === maintenanceId)?.name,
-        diagnostico_inicial: newObservation,
-        fecha_recepcion: maintenances.find((m) => m.id === maintenanceId)?.date,
-      });
-      setMaintenances((prevMaintenances) =>
-        prevMaintenances.map((maintenance) =>
-          maintenance.id === maintenanceId
-            ? {
-                ...maintenance,
-                observations: [
-                  {
-                    observation: newObservation,
-                    date: dateFormatString(maintenance.date),
-                  },
-                ],
+
+      if (editingObservationIdTraza === 0) {
+        await updateMantenimiento(maintenanceId, {
+          diagnostico_inicial: newObservation,
+        });
+      } else {
+        await updateTraza(editingObservationIdTraza, {
+          descripcion: newObservation,
+        });
+      }
+      setMaintenances((prevMaintenances) => {
+        const updatedMaintenances = prevMaintenances.map((maintenance) => {
+          if (maintenance.id === maintenanceId) {
+            const updatedObservations = maintenance.observations.map((obs) => {
+              if (obs.id_traza === editingObservationIdTraza) {
+                return { ...obs, observation: newObservation };
               }
-            : maintenance
-        )
-      );
+              return obs;
+            });
+            return { ...maintenance, observations: updatedObservations };
+          }
+          return maintenance;
+        });
+        return updatedMaintenances;
+      });
       setEditingObservationId(null);
+      setEditingObservationIdTraza(null);
     } catch (error) {
       console.error("Error al guardar el mantenimiento:", error);
     }
   };
 
-  // Handle delete click with confirmation
   const handleDeleteClick = async (maintenanceId) => {
     const result = await Swal.fire({
       title: "¿Estás seguro de eliminar este mantenimiento?",
@@ -122,18 +141,15 @@ const Maintenance = () => {
     }
   };
 
-  // Handle search change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
 
-  // Handle page change
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  // Pagination logic
   const filteredMaintenances = filterMaintenances(maintenances, searchTerm);
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
@@ -164,7 +180,7 @@ const Maintenance = () => {
         {currentRecords.map((maintenance) => (
           <div key={maintenance.id} className="card bg-base-100 shadow-xl">
             <div className="card-body relative">
-              <button
+              {/* <button
                 className="absolute right-10 top-4 transition-transform hover:scale-105"
                 onClick={() => handleDeleteClick(maintenance.id)}>
                 <svg
@@ -180,8 +196,8 @@ const Maintenance = () => {
                     d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
                   />
                 </svg>
-              </button>
-              <h2 className="card-title">Mantenimiento del equipo {maintenance.name}</h2>
+              </button> */}
+              <h2 className="card-title">Mantenimiento del equipo {maintenance.serial}</h2>
               <ul className="timeline timeline-vertical">
                 {maintenance.observations.map((obs, index) => (
                   <li key={index}>
@@ -201,7 +217,7 @@ const Maintenance = () => {
                       </svg>
                     </div>
                     <div className="timeline-end timeline-box flex items-center">
-                      {editingObservationId === maintenance.id ? (
+                      {editingObservationId === maintenance.id && editingObservationIdTraza === obs.id_traza ? (
                         <>
                           <input
                             type="text"
@@ -232,7 +248,7 @@ const Maintenance = () => {
                           {obs.observation}
                           <button
                             className="ml-2 transition-transform hover:scale-105"
-                            onClick={() => handleEditClick(maintenance.id, obs.observation)}>
+                            onClick={() => handleEditClick(maintenance.id, obs.observation, obs.id_traza ?? 0)}>
                             <svg
                               className="stroke-0"
                               width="24px"
@@ -258,14 +274,13 @@ const Maintenance = () => {
                         </>
                       )}
                     </div>
+                    {index !== maintenance.observations.length - 1 && <hr />}
                   </li>
                 ))}
               </ul>
-              <div className="mt-4">
-                <Link to={`/observations/${maintenance.id}`} className="btn btn-primary">
-                  Nueva Observación
-                </Link>
-              </div>
+              <Link to={`/observations/${maintenance.id}?serial=${maintenance.serial}`} className="btn btn-primary">
+                Nueva Observación
+              </Link>
             </div>
           </div>
         ))}

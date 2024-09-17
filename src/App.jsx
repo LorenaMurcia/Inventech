@@ -34,10 +34,6 @@ function App () {
             <Route path='/maintenance' element={<Maintenance />} />
             <Route path='/maintenance/new' element={<NewMaintenance />} />
             <Route path='/observations/:id' element={<ObservationsCard />} />
-            <Route
-              path='/observations/:id/:id'
-              element={<ObservationsCard />}
-            />
           </Routes>
         </div>
         <Footer />
