@@ -65,7 +65,8 @@
     "user": "Usuario Responsable",
     "actions":"Acciones",
     "btnedit":"Editar",
-    "btnsave":"Guardar"
+    "btnsave":"Guardar",
+    "btndelete":"Eliminar"
   },
   "back":{
     "text": "Volver"

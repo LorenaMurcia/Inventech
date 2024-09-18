@@ -65,7 +65,8 @@
     "user": "Responsible User",
     "actions":"Actions",
     "btnedit":"Edit",
-    "btnsave":"Save"
+    "btnsave":"Save",
+    "btndelete":"Delete"
   },
   "back":{
     "text": "Go back"

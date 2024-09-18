@@ -98,6 +98,7 @@ function Device () {
               onChange={e => handleSeletData('users', e)}
               value={selectuser}
             >
+              <option>  Seleccion un usuario </option>
               {usuarios?.length > 0 &&
                 usuarios.map(usuario => (
                   <option key={usuario.id_usuario} value={usuario.id_usuario}>
@@ -113,6 +114,7 @@ function Device () {
               onChange={e => handleSeletData('marcas', e)}
               value={selectmarca}
             >
+              <option>  Seleccion una marca </option>
               {marcas?.length > 0 &&
                 marcas.map(marca => (
                   <option key={marca.id_marca} value={marca.id_marca}>
@@ -138,6 +140,7 @@ function Device () {
               onChange={e => handleSeletData('tipos', e)}
               value={selectdispositivo}
             >
+              <option>  Seleccion un dispositivo </option>
               {dispositivos?.length > 0 &&
                 dispositivos.map(dispositivo => (
                   <option key={dispositivo.id_tipo} value={dispositivo.id_tipo}>
