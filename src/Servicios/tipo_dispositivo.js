@@ -1,4 +1,4 @@
-const api = 'http://localhost:3004'
+const api = 'inventech-back.vercel.app'
 
 const getAllTipos = async ()=>{
   const response = await fetch(`${api}/api/tipo_dispositivoRoutes`)
