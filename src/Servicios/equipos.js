@@ -1,6 +1,6 @@
 //import env from "react-dontenv";
 
-const api = 'inventech-back.vercel.app'
+const api = 'https://inventech-back.vercel.app'
 
 const getAllEquipos = async () => {
     const response = await fetch(`${api}/api/equipos`)

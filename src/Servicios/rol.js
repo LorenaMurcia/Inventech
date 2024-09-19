@@ -1,4 +1,4 @@
-const api = 'inventech-back.vercel.app'
+const api = 'https://inventech-back.vercel.app'
 
 const getRoles = async ()=>{
 const response = await fetch(`${api}/api/roles`)
